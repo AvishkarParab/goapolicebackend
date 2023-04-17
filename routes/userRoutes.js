@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth")
+const verifyPIRole = require("../middleware/verifyPIRole")
+
 
 const {
     getAllUsers,
@@ -12,7 +14,7 @@ const {
 
 
 
-router.get("/all",auth,getAllUsers);
+router.get("/all",auth,verifyPIRole,getAllUsers);
 
 router.post("/login",loginUser)
 
