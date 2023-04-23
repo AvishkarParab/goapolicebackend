@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
         enum : ['male','female'],
         default: 'male'
     },
+    city:{
+        type:String,
+    },
+    pincode:{
+        type:String,
+    },
     role:{
         type:String,
         enum : ['e-beat','pc','pn','hc','asi','psi','pi','sp','dsp'],

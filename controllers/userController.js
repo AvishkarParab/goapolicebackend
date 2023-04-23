@@ -8,18 +8,18 @@ const registerUser = async (req,res) =>{
     
     //if empty data recieved
     if(!name || !policeId || !email || !password || !gender || !role){
-        return res.json({
+        return res.status(400).json({
             "message":"Inavlid Data",
-        }).status(400);
+        });
     }
 
     //To check if same police id exist or not
     let userExist = User.findOne({"policeId":policeId});
 
     if(userExist.id){
-        return res.json({
+        return res.status(400).json({
             "message":"User Already registered",
-        }).status(400);
+        });
     }
 
     //hashing the password for security
@@ -38,18 +38,18 @@ const registerUser = async (req,res) =>{
     const token = jwt.sign({id:created._id,policeId:created.policeId},process.env.SECRETKEY)
     
     if(created){
-        return res.json({
+        return res.status(200).json({
             "message":"User Regsistered Successfully",
             "data":[{user:created,token:token}]
-        }).status(200);
+        });
     }
     
     } catch (error) {
 
         console.log(error);
-        return res.json({
+        return res.status(401).json({
             "message":"Something went wrong",
-        }).status(401);
+        });
     }
 
 }
@@ -60,9 +60,9 @@ const loginUser = async (req,res) =>{
     
     //if empty data recieved
     if(!policeId || !password ){
-        return res.json({
+        return res.status(400).json({
             "message":"Inavlid Data",
-        }).status(400);
+        });
     }
 
     //To check if same police id exist or not
@@ -72,25 +72,25 @@ const loginUser = async (req,res) =>{
         if(pp){
             const token = jwt.sign({id:userExist._id,policeId:userExist.policeId},process.env.SECRETKEY)
 
-            return res.json({
+            return res.status(200).json({
                 "message":"User Logged In Successfully",
                 "data":[{user:userExist,token:token}]
-            }).status(200);
+            });
         }
 
     }else{
-        return res.json({
+        return res.status(400).json({
             "message":"User Not Found",
-        }).status(400);
+        });
     
     }
 
     } catch (error) {
 
         console.log(error);
-        return res.json({
+        return res.status(400).json({
             "message":"Something went wrong",
-        }).status(400);
+        });
     }
 }
 
@@ -101,9 +101,9 @@ const updateUser = async (req,res)=>{
     
     //if empty data recieved
     if(!id|| !name || !policeId || !email || !gender || !role){
-        return res.json({
+        return res.status(400).json({
             "message":"Inavlid Data",
-        }).status(400);
+        });
     }
 
 
@@ -116,17 +116,17 @@ const updateUser = async (req,res)=>{
     },
     {new: true});
     
-        return res.json({
+        return res.status(200).json({
             "message":"User Updated Successfully",
             "data":updatedUser
-        }).status(200);
+        });
 
         
     } catch (error) {
         console.log(error);
-        return res.json({
+        return res.status(400).json({
             "message":"Something went wrong",
-        }).status(400);
+        });
     }
 }
 
@@ -136,9 +136,9 @@ const deleteUser = async (req,res)=>{
     
     //if empty data recieved
     if(!id){
-        return res.json({
+        return res.status(400).json({
             "message":"Inavlid ID",
-        }).status(400);
+        });
     }
 
 
@@ -159,9 +159,9 @@ const deleteUser = async (req,res)=>{
         
     } catch (error) {
         console.log(error);
-        return res.json({
+        return res.status(503).json({
             "message":"Something went wrong",
-        }).status(503);
+        });
     }
 }
 
@@ -172,10 +172,10 @@ const getAllUsers = async (req,res) =>{
         let users = await User.find({});
 
 
-        return res.json({
+        return res.status(200).json({
             "message":"All Users data",
             "data":users
-        }).status(200);
+        });
 
     } catch (error) {
         console.log(error);
