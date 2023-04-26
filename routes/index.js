@@ -5,6 +5,7 @@ let gropus =  require("./groupRoutes");
 let customRoutes =  require("./customRoutes");
 let incidents =  require("./incidentRoutes");
 let places =  require("./placeRoutes");
+let category = require("./categoryRoutes")
 
 
 router.use("/users",users);
@@ -17,6 +18,7 @@ router.use("/incidents",incidents);
 
 router.use("/places",places);
 
+router.use("/category",category)
 
 
 
