@@ -4,7 +4,8 @@ const auth = require("../middleware/auth")
 
 
 const {
-    createPlace
+    createPlace,
+    getPlace
     
 } = require("../controllers/placeController");
 
@@ -13,6 +14,8 @@ const {
 // router.get("/all",auth,verifyPIRole,getAllUsers);
 
 router.post("/create",auth,createPlace)
+
+router.get("/",auth,getPlace);
 
 // router.put("/update/:id",auth,updateUser)
 

@@ -46,7 +46,30 @@ const createPlace = async (req,res) =>{
 
 }
 
+const getPlace = async(req,res)=>{
+    try {
+        const {pincode,area} = req.query;
+        
+        let places = await Place.find({pincode,area:area.toLocaleLowerCase()})
+        
+        if(places.length){
+            return res.status(200).json({
+                "message":"Place fetched Successfully",
+                "data":places
+            });
+        }else{
+            return res.status(200).json({
+                "message":"No Places Found",
+            });
+        }
 
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            "message":"Something went wrong",
+        });
+    }
+}
 // const updateUser = async (req,res)=>{
 //     try {
 //         const {name,policeId,email,gender,role} = req.body;
@@ -140,6 +163,7 @@ const createPlace = async (req,res) =>{
 
 module.exports = {
     createPlace,
+    getPlace,
     // registerUser,
     // updateUser,
     // deleteUser,
