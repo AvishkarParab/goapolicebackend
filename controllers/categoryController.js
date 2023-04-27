@@ -11,6 +11,7 @@ const createCategory = async (req, res) => {
       });
     }
 
+    
     //creating category in database
     let categoryData = await Category.create({
       categoryName,

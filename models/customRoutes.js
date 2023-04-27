@@ -7,27 +7,13 @@ const customRoutesSchema = new mongoose.Schema({
     },
     gid:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Group'
+        ref:'Group',
     },
     curRoutes:[
         {
-            place:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref:'Place'
-            },
-            
-            ltd:String,
-            lgn:String,
-        },
-    ],
-    pastRoutes:[
-        [   
-            {
-                place:String,
-                ltd:String,
-                lgn:String,
-            }
-        ],
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Place',
+        }
     ],
    
 });

@@ -1,4 +1,5 @@
 
+const Category = require("../models/category");
 const Place = require("../models/place")
 
 const createPlace = async (req,res) =>{
@@ -17,6 +18,15 @@ const createPlace = async (req,res) =>{
 
     //validating area
     let validCity = city.toLocaleLowerCase().trim();
+    
+    //checking category
+
+    let findCategory = await Category.findById(category)
+    if(!findCategory.id){
+        return res.status(400).json({
+            "message":"Category Not Found",
+        });
+    }
 
     //inserting place database
     let created = await Place.create({
@@ -87,6 +97,16 @@ const updatePlace = async (req,res)=>{
 
     //validating area
     let validCity = city.toLocaleLowerCase().trim();
+
+    //checking category
+
+    let findCategory = await Category.findById(category)
+
+    if(!findCategory.id){
+        return res.status(400).json({
+            "message":"Category Not Found",
+        });
+    }
 
 
     let updatedPlace = await Place.findByIdAndUpdate(id,{

@@ -6,16 +6,19 @@ const verifyPIRole = require("../middleware/verifyPIRole")
 
 const {
     createIncident,
-    getGroupOfReportedBy
+    getGroupOfReportedBy,
+    getIncidentOfUser
 } = require("../controllers/incidentController");
 
 
 
 // router.get("/all",auth,verifyPIRole,getAllUsers);
 
-router.post("/create",auth,createIncident)
+router.post("/create",auth,createIncident);
 
-router.get("/reportedgroup/:id",auth,getGroupOfReportedBy)
+router.get("/reportedgroup/:id",auth,getGroupOfReportedBy);
+
+router.get("/reportedincidents/:id",auth,getIncidentOfUser);
 
 // router.put("/update/:id",auth,updateUser)
 

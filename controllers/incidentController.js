@@ -56,8 +56,9 @@ const getGroupOfReportedBy = async (req,res)=>{
         let userInfo = await User.findById(id);
 
         if(userInfo){
+
             let groupDetails=[];
-            console.log(userInfo.role);
+            
             if(userInfo.role==="pi"){
                 groupDetails = await Group.findOne({inspectorId:id});
 
@@ -90,6 +91,41 @@ const getGroupOfReportedBy = async (req,res)=>{
         });
     }
 }
+
+const getIncidentOfUser = async(req,res) =>{
+
+    try {
+        
+        const id = req.params.id;
+
+        const incidents = await Incident.find({reportedBy:id});
+
+        if(incidents.length){
+            return res.status(200).json({
+                "message":"Incidents Fetched Successfully",
+                "data":incidents
+            });
+        }else{
+            return res.status(200).json({
+                "message":"No Incidents Found",
+            });
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            "message":"Something went wrong",
+        });
+    }
+
+
+
+
+}
+
+
+
 // const updateUser = async (req,res)=>{
 //     try {
 //         const {name,policeId,email,gender,role} = req.body;
@@ -183,7 +219,8 @@ const getGroupOfReportedBy = async (req,res)=>{
 
 module.exports = {
     createIncident,
-    getGroupOfReportedBy
+    getGroupOfReportedBy,
+    getIncidentOfUser,
     // registerUser,
     // updateUser,
     // deleteUser,
