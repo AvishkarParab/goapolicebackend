@@ -5,8 +5,9 @@ const auth = require("../middleware/auth")
 
 const {
     createPlace,
-    getPlace
-    
+    getPlace,
+    updatePlace,
+    deletePlace
 } = require("../controllers/placeController");
 
 
@@ -17,8 +18,8 @@ router.post("/create",auth,createPlace)
 
 router.get("/",auth,getPlace);
 
-// router.put("/update/:id",auth,updateUser)
+router.put("/update/:id",auth,updatePlace)
 
-// router.delete("/delete/:id",auth,deleteUser)
+router.delete("/delete/:id",auth,deletePlace)
 
 module.exports = router;

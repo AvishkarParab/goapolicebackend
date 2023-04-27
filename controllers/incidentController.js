@@ -1,12 +1,15 @@
 
+const Group = require("../models/group");
 const Incident = require("../models/incident")
+const User = require("../models/user")
+
 
 const createIncident = async (req,res) =>{
     try {
-        const {reportedBy,description,severity,placeId} = req.body;
+        const {reportedBy,description,severity,placeId,incidentType} = req.body;
     
     //if empty data recieved
-    if(!reportedBy || !description || !placeId ||!severity){
+    if(!reportedBy || !description || !placeId ||!severity || !incidentType){
         return res.status(400).json({
             "message":"Inavlid Data",
         });
@@ -23,7 +26,8 @@ const createIncident = async (req,res) =>{
         reportedBy,
         description,
         severity,
-        placeId
+        placeId,
+        incidentType
     });
     
     if(created){
@@ -43,7 +47,49 @@ const createIncident = async (req,res) =>{
 
 }
 
+const getGroupOfReportedBy = async (req,res)=>{
+    try {
 
+        //reported by id
+        const id = req.params.id;
+        
+        let userInfo = await User.findById(id);
+
+        if(userInfo){
+            let groupDetails=[];
+            console.log(userInfo.role);
+            if(userInfo.role==="pi"){
+                groupDetails = await Group.findOne({inspectorId:id});
+
+            }else if(userInfo.role==="hc"){
+                groupDetails = await Group.findOne({"headconstables":{"$in":id}}); 
+
+            }else if(userInfo.role==="e-beat"){
+
+                groupDetails = await Group.findOne({"ebeats":{"$in":id}});
+
+            }
+            
+            if(groupDetails.id){
+                return res.status(200).json({
+                    "message":"Group Fetched Successfully",
+                    "data":groupDetails
+                });
+            }else{
+                return res.status(200).json({
+                    "message":"No Group Found",
+                });
+            }
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            "message":"Something went wrong",
+        });
+    }
+}
 // const updateUser = async (req,res)=>{
 //     try {
 //         const {name,policeId,email,gender,role} = req.body;
@@ -137,6 +183,7 @@ const createIncident = async (req,res) =>{
 
 module.exports = {
     createIncident,
+    getGroupOfReportedBy
     // registerUser,
     // updateUser,
     // deleteUser,
