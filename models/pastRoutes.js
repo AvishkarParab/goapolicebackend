@@ -26,6 +26,5 @@ const pastRoutesSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
 const pastRoute = mongoose.model("PastRoute", pastRoutesSchema);
 module.exports = pastRoute;
