@@ -1,61 +1,62 @@
-const CustomRoute = require("../models/customRoutes")
+const CustomRoute = require("../models/customRoutes");
 
-const createRoute = async (req,res) =>{
-    try {
-        const {name,gid,curRoutes,pastRoutes} = req.body;
-    
+const createRoute = async (req, res) => {
+  try {
+    const { name, gid, curRoutes } = req.body;
+
     //if empty data recieved
-    if(!name || !gid || !curRoutes || !pastRoutes ){
-        return res.status(400).json({
-            "message":"Inavlid Data",
-        });
+    if (!name || !gid || !curRoutes) {
+      return res.status(400).json({
+        message: "Inavlid Data",
+      });
     }
-
-    //To check if same police id exist or not
-    let userExist = User.findOne({"policeId":policeId});
-
-    if(userExist.id){
-        return res.status(400).json({
-            "message":"User Already registered",
-        });
+    const pastRoutes = [];
+    if (await CustomRoute.find({ name })) {
+      return res.status(201).json({
+        message: "name already exists",
+      });
     }
-
-    //hashing the password for security
-
-    let hashpass =await  bcryptjs.hash(password,10);
-    //inserting user database
-    let created = await User.create({
-        name,
-        policeId,
-        email,
-        password:hashpass,
-        gender,
-        role
+    const existing_route = await CustomRoute.find({ gid });
+    if (existing_route) {
+      console.log(existing_route[0].curRoutes);
+      if (existing_route[0].curRoutes.length > 0)
+        pastRoutes = existing_route[0].pastRoutes.push(
+          existing_route[0].curRoutes
+        );
+      return res.status(200).json({
+        existing_route,
+      });
+    }
+    if (curRoutes.length > 0) {
+      pastRoutes.push(curRoutes);
+    } else {
+      console.log(error);
+      return res.status(401).json({
+        message: "Something went wrong",
+      });
+    }
+    // //inserting user database
+    let created = await CustomRoute.create({
+      name,
+      gid,
+      curRoutes,
+      pastRoutes,
     });
 
-    const token = jwt.sign({id:created._id,policeId:created.policeId},process.env.SECRETKEY)
-    
-    if(created){
-        return res.status(200).json({
-            "message":"User Regsistered Successfully",
-            "data":[{user:created,token:token}]
-        });
+    if (created) {
+      return res.status(200).json({
+        message: "Route Regsistered Successfully",
+        data: [{ user: created }],
+      });
     }
-    
-    } catch (error) {
-
-        console.log(error);
-        return res.status(401).json({
-            "message":"Something went wrong",
-        });
-    }
-
-}
-
-
-
-
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({
+      message: "Something went wrong",
+    });
+  }
+};
 
 module.exports = {
-    createRoute
-}
+  createRoute,
+};
