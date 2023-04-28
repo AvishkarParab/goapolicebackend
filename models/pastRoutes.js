@@ -12,7 +12,7 @@ const pastRoutesSchema = new mongoose.Schema(
         name: String,
         routes: [
           {
-            place: {
+            placeId: {
               type: mongoose.Schema.Types.ObjectId,
               ref: "Place",
             },

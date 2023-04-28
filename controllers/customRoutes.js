@@ -8,7 +8,7 @@ const createRoute = async (req, res) => {
     //if empty data recieved
     if (!name || !gid || !curRoutes) {
       return res.status(400).json({
-        message: "Inavlid Data",
+        "message": "Inavlid Data",
       });
     }
 
@@ -16,14 +16,14 @@ const createRoute = async (req, res) => {
       return res.status(401).json({
           "message":"curRoutes should be of type array",
       });
-  }
+    }
 
   const placesExist = await Place.find({"_id":{$in:curRoutes}});
   
   if(!placesExist.length){
     return res.status(401).json({
       "message":"Yeahh places Exist",
-      data : placesExist
+      "data" : placesExist
     });
   }
 
@@ -65,7 +65,7 @@ const createRoute = async (req, res) => {
     if (created) {
       return res.status(200).json({
         message: "Route Regsistered Successfully",
-        data: created,
+        "data": created,
       });
     }
   } catch (error) {

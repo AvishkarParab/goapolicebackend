@@ -38,9 +38,11 @@ const registerUser = async (req,res) =>{
     const token = jwt.sign({id:created._id,policeId:created.policeId},process.env.SECRETKEY)
     
     if(created){
+
+        const { password, ...responseUser } = created._doc;
         return res.status(200).json({
             "message":"User Regsistered Successfully",
-            "data":[{user:created,token:token}]
+            "data":[{user:responseUser,token:token}]
         });
     }
     
