@@ -1,6 +1,8 @@
 const bcryptjs = require("bcryptjs")
 const jwt =  require("jsonwebtoken")
 const User = require("../models/user")
+const Group = require("../models/group")
+
 
 const registerUser = async (req,res) =>{
     try {
@@ -185,6 +187,48 @@ const getAllUsers = async (req,res) =>{
     
 }
 
+const getUserGroup = async (req,res)=>{
+
+    try{
+        const id = req.params.id;
+        
+        let userInfo = await User.findById(id);
+
+        if(userInfo){
+
+            let groupDetails=[];
+            
+            if(userInfo.role==="pi"){
+                groupDetails = await Group.findOne({inspectorId:id});
+
+            }else if(userInfo.role==="hc"){
+                groupDetails = await Group.findOne({"headconstables":{"$in":id}}); 
+
+            }else if(userInfo.role==="e-beat"){
+
+                groupDetails = await Group.findOne({"ebeats":{"$in":id}});
+
+            }
+            
+            if(groupDetails.id){
+                return res.status(200).json({
+                    "message":"Group Fetched Successfully",
+                    "data":groupDetails
+                });
+            }else{
+                return res.status(200).json({
+                    "message":"No Group Found",
+                });
+            }
+        }
+    }catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            "message":"Something went wrong",
+        });
+    }
+}
+
 
 
 module.exports = {
@@ -192,5 +236,6 @@ module.exports = {
     registerUser,
     updateUser,
     deleteUser,
-    loginUser
+    loginUser,
+    getUserGroup
 }

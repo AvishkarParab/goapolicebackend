@@ -9,7 +9,8 @@ const {
     loginUser,
     updateUser,
     deleteUser,
-    registerUser
+    registerUser,
+    getUserGroup
 } = require("../controllers/userController");
 
 
@@ -23,5 +24,8 @@ router.post("/register",registerUser)
 router.put("/update/:id",auth,updateUser)
 
 router.delete("/delete/:id",auth,deleteUser)
+
+router.get("/usergroup/:id",auth,getUserGroup);
+
 
 module.exports = router;
