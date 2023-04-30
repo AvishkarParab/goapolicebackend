@@ -6,10 +6,13 @@ const verifyPIRole = require("../middleware/verifyPIRole")
 
 const {
     createRoute,
+    getRoutebyGroup
 } = require("../controllers/customRoutes");
 
 
 router.post("/create",auth,createRoute)
+
+router.get("/group/:gid",auth,getRoutebyGroup)
 
 // router.get("/allGroups",auth,getAllGroup)
 
