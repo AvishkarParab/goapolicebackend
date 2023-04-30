@@ -12,6 +12,7 @@ const {
 // router.get("/all",auth,verifyPIRole,getAllUsers);
 
 router.post("/add",auth,addVisitedPlace)
+// router.post("/add",auth,addVisitedPlace)0
 
 // router.get("/",auth,getPlace);
 

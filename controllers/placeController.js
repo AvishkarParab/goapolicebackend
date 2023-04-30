@@ -168,23 +168,24 @@ const deletePlace = async (req,res)=>{
     }
 }
 
-// const getAllUsers = async (req,res) =>{
+const getAllPlace = async (req,res) =>{
 
-//     try {
+    try {
 
-//         let users = await User.find({});
+        let places = await Place.find({});
+        return res.status(200).json({
+            "message":"All Places data",
+            "data":places
+        });
 
-
-//         return res.status(200).json({
-//             "message":"All Users data",
-//             "data":users
-//         });
-
-//     } catch (error) {
-//         console.log(error);
-//     }
+    } catch (error) {
+        console.log(error);
+        return res.status(503).json({
+            "message":"Something went wrong",
+        });
+    }
     
-// }
+}
 
 
 
@@ -192,5 +193,6 @@ module.exports = {
     createPlace,
     getPlace,
     updatePlace,
-    deletePlace
+    deletePlace,
+    getAllPlace
 }
