@@ -1,17 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/auth")
-
+const auth = require("../middleware/auth");
 
 const {
-   addVisitedPlace
+  addVisitedPlace,
+  getVisitedPlaces,
 } = require("../controllers/visitedController");
-
-
 
 // router.get("/all",auth,verifyPIRole,getAllUsers);
 
-router.post("/add",auth,addVisitedPlace)
+router.post("/add", auth, addVisitedPlace);
+router.get("/places", auth, getVisitedPlaces);
 
 // router.get("/",auth,getPlace);
 
