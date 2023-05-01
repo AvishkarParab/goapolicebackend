@@ -8,6 +8,7 @@ const {
   getCategory,
   updateCategory,
   deleteCategory,
+  getCategoryBygid,
 } = require("../controllers/categoryController");
 
 router.post("/create", auth, createCategory);
@@ -19,5 +20,6 @@ router.get("/:id", auth, getCategory);
 router.put("/:id", auth, updateCategory);
 
 router.delete("/:id", auth, deleteCategory);
+router.get("/getgroupcategory/:id", auth, getCategoryBygid);
 
 module.exports = router;

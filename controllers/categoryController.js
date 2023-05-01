@@ -2,19 +2,19 @@ const Category = require("../models/category");
 
 const createCategory = async (req, res) => {
   try {
-    const { categoryName } = req.body;
+    const { categoryName, gid } = req.body;
 
     //if empty data recieved
-    if (!categoryName) {
+    if (!categoryName || !gid) {
       return res.status(401).json({
         message: "Inavlid Data",
       });
     }
 
-    
     //creating category in database
     let categoryData = await Category.create({
       categoryName,
+      gid,
     });
 
     if (categoryData.id) {
@@ -113,10 +113,28 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+const getCategoryBygid = async (req, res) => {
+  try {
+    const gid = req.params.id;
+    const data = await Category.find({ gid });
+
+    return res.status(200).json({
+      message: "Group categorys data",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   createCategory,
   getAllCategory,
   getCategory,
   updateCategory,
   deleteCategory,
+  getCategoryBygid,
 };

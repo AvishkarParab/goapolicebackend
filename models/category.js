@@ -5,6 +5,7 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  gid: { type: mongoose.Schema.Types.ObjectId, ref: "Group" },
 });
 
 const Category = mongoose.model("Category", categorySchema);
