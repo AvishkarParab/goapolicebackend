@@ -5,6 +5,10 @@ const customRoutesSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    description:{
+        type:String,
+        required:false,
+    },
     gid:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Group',

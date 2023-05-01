@@ -4,10 +4,10 @@ const Place = require("../models/place");
 
 const createRoute = async (req, res) => {
   try {
-    const { name, gid, curRoutes } = req.body;
+    const { name, gid, description, curRoutes } = req.body;
 
     //if empty data recieved
-    if (!name || !gid || !curRoutes) {
+    if (!name || !gid || !curRoutes || !description) {
       return res.status(400).json({
         "message": "Inavlid Data",
       });
@@ -32,6 +32,7 @@ const createRoute = async (req, res) => {
       name,
       gid,
       curRoutes,
+      description,
     });
 
     if (created) {
