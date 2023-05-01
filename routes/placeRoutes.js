@@ -17,7 +17,7 @@ const {
 
 router.post("/create",auth,createPlace)
 
-router.get("/",auth,getPlace);
+router.get("/byarea",auth,getPlace);
 
 router.put("/update/:id",auth,updatePlace)
 

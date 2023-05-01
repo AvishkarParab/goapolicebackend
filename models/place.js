@@ -15,14 +15,6 @@ const placeSchema = new mongoose.Schema({
         ref:'Category',
         required:true,
     },
-    pincode:{
-        type:String,
-        required:true,
-    },
-    city:{
-        type:String,
-        required:true
-    },
     ltd:{
         type:String,
         required:true

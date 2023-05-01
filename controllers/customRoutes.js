@@ -1,3 +1,4 @@
+const Area = require("../models/area");
 const CustomRoute = require("../models/customRoutes");
 const Place = require("../models/place");
 
@@ -18,12 +19,12 @@ const createRoute = async (req, res) => {
       });
     }
 
-  const placesExist = await Place.find({"_id":{$in:curRoutes}});
+  const areaExist = await Area.find({"_id":{$in:curRoutes}});
   
-  if(!placesExist.length){
+  if(!areaExist.length){
     return res.status(401).json({
-      "message":"Yeahh places Exist",
-      "data" : placesExist
+      "message":"Area does not Exist",
+      "data" : areaExist
     });
   }
        

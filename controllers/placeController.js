@@ -1,24 +1,19 @@
 
+const Area = require("../models/area");
 const Category = require("../models/category");
 const Place = require("../models/place")
 
 const createPlace = async (req,res) =>{
     try {
-        const {name,area,category,pincode,city,ltd,lgn} = req.body;
+        const {name,area,category,ltd,lgn} = req.body;
     
     //if empty data recieved
-    if(!name || !area || !category ||!pincode || !city ||!ltd ||!lgn){
+    if(!name || !area || !category ||!ltd ||!lgn){
         return res.status(400).json({
             "message":"Incomplete  Data",
         });
     }
 
-    //validating area
-    let validArea = area.toLocaleLowerCase().trim();
-
-    //validating area
-    let validCity = city.toLocaleLowerCase().trim();
-    
     //checking category
 
     let findCategory = await Category.findById(category)
@@ -28,13 +23,18 @@ const createPlace = async (req,res) =>{
         });
     }
 
+    //checkin Area
+    let findArea = await Area.findById(area)
+    if(!findArea.id){
+        return res.status(400).json({
+            "message":"Area Not Found",
+        });
+    }
     //inserting place database
     let created = await Place.create({
         name,
-        area:validArea,
+        area,
         category,
-        pincode,
-        city:validCity,
         ltd,
         lgn
     });
@@ -58,9 +58,9 @@ const createPlace = async (req,res) =>{
 
 const getPlace = async(req,res)=>{
     try {
-        const {pincode,area} = req.query;
-        
-        let places = await Place.find({pincode,area:area.toLocaleLowerCase()})
+        const {area,category} = req.query;
+
+        let places = await Place.find({area,category})
         
         if(places.length){
             return res.status(200).json({
@@ -82,21 +82,16 @@ const getPlace = async(req,res)=>{
 }
 const updatePlace = async (req,res)=>{
     try {
-        const {name,area,category,pincode,city,ltd,lgn} = req.body;
+        const {name,area,category,ltd,lgn} = req.body;
         const id = req.params.id;
     
     //if empty data recieved
-    if(!name || !area || !category ||!pincode || !city ||!ltd ||!lgn){
+    if(!name || !area || !category ||!ltd ||!lgn){
         return res.status(400).json({
             "message":"Incomplete Data",
         });
     }
 
-    //validating area
-    let validArea = area.toLocaleLowerCase().trim();
-
-    //validating area
-    let validCity = city.toLocaleLowerCase().trim();
 
     //checking category
 
@@ -108,13 +103,21 @@ const updatePlace = async (req,res)=>{
         });
     }
 
+    //checking category
+
+    let findArea = await Category.findById(area)
+
+    if(!findArea.id){
+        return res.status(400).json({
+            "message":"Area Not Found",
+        });
+    }
+
 
     let updatedPlace = await Place.findByIdAndUpdate(id,{
         name,
-        area:validArea,
+        area,
         category,
-        pincode,
-        city:validCity,
         ltd,
         lgn
     },
@@ -187,6 +190,8 @@ const getAllPlace = async (req,res) =>{
     
 }
 
+
+//note: marking location userid, placeid, gid , ltd, lgn
 
 
 module.exports = {

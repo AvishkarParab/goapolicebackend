@@ -12,7 +12,7 @@ const customRoutesSchema = new mongoose.Schema({
     curRoutes:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:'Place',
+            ref:'Area',
         }
     ],
    
