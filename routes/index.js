@@ -8,6 +8,8 @@ let places = require("./placeRoutes");
 let category = require("./categoryRoutes");
 let pastroutes = require("./pastRoutesRoutes");
 let visitedPlaces = require("./visitedRoutes");
+let areas = require("./areaRoutes");
+
 
 
 router.use("/users", users);
@@ -25,6 +27,9 @@ router.use("/category", category);
 router.use("/pastroutes", pastroutes);
 
 router.use("/visitedplaces", visitedPlaces);
+
+router.use("/areas", areas);
+
 
 
 module.exports = router;

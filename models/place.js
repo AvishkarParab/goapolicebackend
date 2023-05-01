@@ -6,7 +6,8 @@ const placeSchema = new mongoose.Schema({
         required:true,
     },
     area:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Area',
         required:true,
     },
     category:{
