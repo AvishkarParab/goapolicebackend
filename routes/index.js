@@ -10,8 +10,6 @@ let pastroutes = require("./pastRoutesRoutes");
 let visitedPlaces = require("./visitedRoutes");
 let areas = require("./areaRoutes");
 
-
-
 router.use("/users", users);
 
 router.use("/groups", gropus);
@@ -29,7 +27,5 @@ router.use("/pastroutes", pastroutes);
 router.use("/visitedplaces", visitedPlaces);
 
 router.use("/areas", areas);
-
-
 
 module.exports = router;
