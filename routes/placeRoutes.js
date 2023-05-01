@@ -8,7 +8,8 @@ const {
     getPlace,
     updatePlace,
     deletePlace,
-    getAllPlace
+    getAllPlace,
+    verifyLocationReached
 } = require("../controllers/placeController");
 
 
@@ -25,5 +26,6 @@ router.delete("/delete/:id",auth,deletePlace)
 
 router.get("/allplaces",auth,getAllPlace)
 
+router.post("/verifyreached",auth,verifyLocationReached);
 
 module.exports = router;

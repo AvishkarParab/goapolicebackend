@@ -2,6 +2,7 @@
 const Area = require("../models/area");
 const Category = require("../models/category");
 const Place = require("../models/place")
+const VisitedPlace = require("../models/visitedPlace")
 
 const createPlace = async (req,res) =>{
     try {
@@ -190,6 +191,56 @@ const getAllPlace = async (req,res) =>{
     
 }
 
+const verifyLocationReached = async(req,res)=>{
+
+    try {
+        const {userid,placeid,gid,ltd,lgn} = req.body;
+    
+    //if empty data recieved
+    if(!userid || !placeid || !gid ||!ltd ||!lgn){
+        return res.status(400).json({
+            "message":"Incomplete  Data",
+        });
+    }
+
+    //checking category
+
+    let findPlace = await Place.findById(placeid)
+    if(!findPlace.id){
+        return res.status(400).json({
+            "message":"Place Not Found",
+        });
+    }
+
+    if(findPlace.ltd === ltd && findPlace.lgn  === lgn){
+
+    //inserting visited database
+    let created = await VisitedPlace.create({
+        placeId:placeid,
+        gid,
+        visitedBy:userid,
+    });
+
+    if(created){
+        return res.status(200).json({
+            "message":"Place Visited Marked",
+            "data":created
+        });
+    }
+    }else{
+        return res.status(401).json({
+            "message":"Incorrect Location marked",
+        });
+    }
+    
+    } catch (error) {
+
+        console.log(error);
+        return res.status(401).json({
+            "message":"Something went wrong",
+        });
+    }
+}
 
 //note: marking location userid, placeid, gid , ltd, lgn
 
@@ -199,5 +250,6 @@ module.exports = {
     getPlace,
     updatePlace,
     deletePlace,
-    getAllPlace
+    getAllPlace,
+    verifyLocationReached
 }

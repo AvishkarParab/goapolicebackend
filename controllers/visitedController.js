@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const Group = require("../models/group");
 const User = require("../models/user");
 const Visited = require("../models/visitedPlace");
+const VisitedPlace = require("../models/visitedPlace");
 
 const getVisitedPlaces = async (req, res) => {
   try {
@@ -111,7 +112,33 @@ const addVisitedPlace = async (req, res) => {
   }
 };
 
+const getAllVisitedPlaces = async (req,res)=>{
+  try {
+   
+    const visitedPlaces = await VisitedPlace.find({})
+
+    if (visitedPlaces.length) {
+      return res.status(200).json({
+        "message": "Visited Place Fetched Successfully",
+        "data": visitedPlaces,
+      });
+    }else{
+      return res.status(200).json({
+        "message": "No Visited Place Found",
+      });
+    }
+
+
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({
+      message: "Something went wrong",
+    });
+  }
+}
+
 module.exports = {
   addVisitedPlace,
   getVisitedPlaces,
+  getAllVisitedPlaces
 };

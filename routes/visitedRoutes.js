@@ -5,13 +5,14 @@ const auth = require("../middleware/auth");
 const {
   addVisitedPlace,
   getVisitedPlaces,
+  getAllVisitedPlaces
 } = require("../controllers/visitedController");
 
 // router.get("/all",auth,verifyPIRole,getAllUsers);
 
 router.post("/add",auth,addVisitedPlace)
 
-// router.get("/",auth,getPlace);
+router.get("/all",auth,getAllVisitedPlaces);
 
 // router.put("/update/:id",auth,updatePlace)
 
