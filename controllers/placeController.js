@@ -228,9 +228,10 @@ const verifyLocationReached = async (req, res) => {
 
 const getPlacebyArea = async (req, res) => {
   try {
-    const area = req.params.id;
-    const place = await Place.find({ area });
-    // console.log(place);
+    const { area } = req.query;
+    // console.log(area);
+    const place = await Place.find({ area: { $in: area } });
+
     return res.status(200).json({
       message: "Area Places ",
       data: place,

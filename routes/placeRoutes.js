@@ -26,6 +26,6 @@ router.get("/allplaces", auth, getAllPlace);
 
 router.post("/verifyreached", auth, verifyLocationReached);
 
-router.get("/areaplace/:id", auth, getPlacebyArea);
+router.get("/areaplace", auth, getPlacebyArea);
 
 module.exports = router;
