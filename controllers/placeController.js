@@ -57,7 +57,7 @@ const getPlace = async (req, res) => {
   try {
     const { area, category } = req.query;
 
-    let places = await Place.find({ area, category });
+    let places = await Place.find({ area: { $in: area }, category });
 
     if (places.length) {
       return res.status(200).json({
